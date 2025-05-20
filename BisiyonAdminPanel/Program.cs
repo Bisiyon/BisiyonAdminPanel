@@ -1,7 +1,28 @@
-var builder = WebApplication.CreateBuilder(args);
+using BisiyonAdminPanel;
+using Microsoft.EntityFrameworkCore;
+
+var configurationBuilder = new ConfigurationBuilder()
+    .SetBasePath(Directory.GetCurrentDirectory())
+    .AddJsonFile("envsettings.json", optional: false, reloadOnChange: true);
+
+var envConfig = configurationBuilder.Build();
+var environment = envConfig["Environment"] ?? "Production";
+
+var builder = WebApplication.CreateBuilder(new WebApplicationOptions
+{
+    EnvironmentName = environment
+});
+
+builder.Configuration
+    .AddJsonFile("appsettings.json", optional: false, reloadOnChange: true)
+    .AddJsonFile($"appsettings.{environment}.json", optional: true, reloadOnChange: true);
 
 // Add services to the container.
 builder.Services.AddControllersWithViews();
+
+builder.Services.AddDbContext<BisiyonSaasMainDbContext>(options =>
+    options.UseSqlServer(builder.Configuration.GetConnectionString("Default")));
+
 
 var app = builder.Build();
 
