@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="en" class='light-style layout-menu-fixed' data-theme="theme-default" data-framework="aspnetcore-mvc"
+    ng-app="bisiyonApp">
+
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport"
+        content="width=device-width, initial-scale=1.0, user-scalable=no, minimum-scale=1.0, maximum-scale=1.0" />
+
+    @{
+        string title = ViewData["title"] as string ?? "";
+        string appName = TempData.Peek("appName") as string ?? "";
+        string productPage = TempData.Peek("productPage") as string ?? "";
+    }
+    <title>Bisiyon Admin-@title</title>
+    <meta name="description" content="" />
+    <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.8.2/angular.min.js"></script>
+    <!-- Canonical SEO -->
+    <link rel="canonical" href='@productPage'>
+    <!-- Favicon -->
+    <link rel="icon" type="image/x-icon" href="~/img/favicon/favicon.ico" />
+
+    <!-- Core Styles -->
+    @await Html.PartialAsync("Sections/_Styles")
+
+    <!-- Vendor Styles -->
+    @RenderSection("VendorStyles", required: false)
+
+    <!-- Page Styles -->
+    @RenderSection("PageStyles", required: false)
+
+    <!-- Include Scripts for customizer, helper, analytics, config -->
+    @await Html.PartialAsync("Sections/_ScriptsIncludes")
+
+</head>
+
+<body ng-controller="layoutController">
+
+    <div class="bs-toast toast toast-placement-ex m-2" role="alert" aria-live="assertive" aria-atomic="true"
+        data-bs-delay="2000">
+        <div class="toast-header">
+            <div class="me-auto fw-medium">{{ToastIsError ? "Hata" : "Başarılı"}}</div>
+            <button type="button" class="btn-close" data-bs-dismiss="toast" aria-label="Close"></button>
+        </div>
+        <div class="toast-body">
+            {{ToastMessage}}
+        </div>
+    </div>
+
+
+    <!-- Layout Content -->
+    @RenderBody()
+    <!--/ Layout Content -->
+
+    <!-- Core Scripts -->
+    @await Html.PartialAsync("Sections/_Scripts")
+
+    <!-- Vendor Scripts -->
+    @RenderSection("VendorScripts", required: false)
+
+    <!-- Main JS-->
+    <script src='~/js/main.js'></script>
+
+    <!-- Page Scripts-->
+    @RenderSection("PageScripts", required: false)
+
+    <!-- Place this tag in your head or just before your close body tag. -->
+    <script async defer src="https://buttons.github.io/buttons.js"></script>
+
+</body>
+
+</html>

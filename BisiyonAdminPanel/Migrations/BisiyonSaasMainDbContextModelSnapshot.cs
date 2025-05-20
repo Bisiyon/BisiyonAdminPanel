@@ -75,6 +75,11 @@ namespace BisiyonAdminPanel.Migrations
                     b.Property<string>("SiteAddress")
                         .HasColumnType("nvarchar(max)");
 
+                    b.Property<string>("SiteCode")
+                        .IsRequired()
+                        .HasMaxLength(1000)
+                        .HasColumnType("nvarchar(1000)");
+
                     b.Property<string>("SiteName")
                         .IsRequired()
                         .HasMaxLength(1000)

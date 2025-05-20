@@ -10,6 +10,10 @@ namespace BisiyonAdminPanel
 
         [Required]
         [MaxLength(1000)]
+        public string SiteCode { get; set; }
+
+        [Required]
+        [MaxLength(1000)]
         public string SiteName { get; set; }
 
         [MaxLength(500)]

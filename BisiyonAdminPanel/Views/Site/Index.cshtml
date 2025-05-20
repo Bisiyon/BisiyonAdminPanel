@@ -1,0 +1,143 @@
+@{
+    ViewData["Title"] = "Sites";
+}
+
+<div ng-controller="siteController" ng-init="InitPage()">
+    <div class="card">
+        <div class="card-body">
+            <div class="row gy-3">
+
+                <!-- Enable Scrolling & Backdrop Offcanvas -->
+                <div class="col-lg-12 col-md-12">
+                    <div style="float: right;">
+                        <button class="btn btn-primary" type="button" data-bs-toggle="modal"
+                            data-bs-target="#newSiteModal" ng-click="NewSite()">Yeni
+                            Site</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="table-responsive text-nowrap">
+        <table class="table table-hover">
+            <thead>
+                <tr>
+                    <th>Site Kodu</th>
+                    <th>Site Adı</th>
+                    <th>Oluşturulma Tarihi</th>
+                    <th>Yetkili Adı</th>
+                    <th>Yetkili Email</th>
+                    <th>Yetkili Telefon</th>
+                    <th>Aktif Mi?</th>
+                    <th>İşlemler</th>
+                </tr>
+            </thead>
+            <tbody class="table-border-bottom-0">
+                <tr ng-repeat="site in Sites">
+                    <td> <span>{{site.SiteCode}}</span></td>
+                    <td>{{site.SiteName}}</td>
+                    <td>{{site.CreatedDate | date:'dd.MM.yyyy HH:mm'}}</td>
+                    <td>{{site.OwnerName}}</td>
+                    <td>{{site.OwnerEmail}}</td>
+                    <td>{{site.OwnerPhone}}</td>
+                    <td>
+                        <span class="badge bg-label-success me-1" ng-if="site.IsActive">Aktif</span>
+                        <span class="badge bg-label-danger me-1" ng-if="!site.IsActive">Pasif</span>
+                    </td>
+                    <td>
+                        <div class="dropdown">
+                            <button type="button" class="btn p-0 dropdown-toggle hide-arrow"
+                                data-bs-toggle="dropdown"><i class="bx bx-dots-vertical-rounded"></i></button>
+                            <div class="dropdown-menu">
+                                <a class="dropdown-item" href="javascript:void(0);"><i class="bx bx-edit-alt me-1"></i>
+                                    Edit</a>
+                                <a class="dropdown-item" href="javascript:void(0);"><i class="bx bx-trash me-1"></i>
+                                    Delete</a>
+                            </div>
+                        </div>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+
+    <div class="modal fade" id="newSiteModal" tabindex="-1" aria-hidden="true" data-bs-backdrop="static">
+        <div class="modal-dialog modal-xl" role="document">
+            <div class="modal-content">
+                <form ng-submit="SaveSite()">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="exampleModalLabel4">Yeni Site</h5>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"
+                            ng-disabled="SavingSite"></button>
+                    </div>
+                    <div class="modal-body">
+                        <div class="row">
+                            <div class="col mb-6">
+                                <label for="nameExLarge" class="form-label">Site Kodu</label>
+                                <input type="text" id="nameExLarge" class="form-control" ng-model="SiteModel.SiteCode">
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col mb-6">
+                                <label for="nameExLarge" class="form-label">Site Adı</label>
+                                <input type="text" id="nameExLarge" class="form-control" ng-model="SiteModel.SiteName">
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col mb-6">
+                                <label for="nameExLarge" class="form-label">Site Adresi</label>
+                                <input type="text" id="nameExLarge" class="form-control"
+                                    ng-model="SiteModel.SiteAddress">
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col mb-6">
+                                <label for="nameExLarge" class="form-label">Yetkili Adı Soyadı</label>
+                                <input type="text" id="nameExLarge" class="form-control" ng-model="SiteModel.OwnerName">
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col mb-6">
+                                <label for="nameExLarge" class="form-label">Veritabanı Bilgisi</label>
+                                <input type="text" id="nameExLarge" class="form-control"
+                                    ng-model="SiteModel.DatabaseInfo">
+                            </div>
+                        </div>
+                        <div class="row g-6">
+                            <div class="col mb-6">
+                                <label for="emailExLarge" class="form-label">Email</label>
+                                <input type="email" id="emailExLarge" class="form-control"
+                                    ng-model="SiteModel.OwnerEmail">
+                            </div>
+                            <div class="col mb-6">
+                                <label for="emailExLarge" class="form-label">Alternatif Email</label>
+                                <input type="email" id="emailExLarge" class="form-control"
+                                    ng-model="SiteModel.OwnerAlternateEmail">
+                            </div>
+                        </div>
+                        <div class="row g-6">
+                            <div class="col mb-6">
+                                <label for="emailExLarge" class="form-label">Telefon</label>
+                                <input type="email" id="emailExLarge" class="form-control"
+                                    ng-model="SiteModel.OwnerPhone">
+                            </div>
+                            <div class="col mb-6">
+                                <label for="emailExLarge" class="form-label">Alternatif Telefon</label>
+                                <input type="email" id="emailExLarge" class="form-control"
+                                    ng-model="SiteModel.OwnerAlternatePhone">
+                            </div>
+                        </div>
+
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-outline-secondary" data-bs-dismiss="modal"
+                            ng-disabled="SavingSite" id="btnCloseModal">Kapat</button>
+                        <button type="submit" class="btn btn-primary" ng-disabled="SavingSite">Kaydet</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
+</div>
