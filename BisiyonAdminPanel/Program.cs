@@ -61,4 +61,9 @@ app.MapControllerRoute(
     name: "default",
     pattern: "{controller=Home}/{action=Index}/{id?}");
 
+using (BisiyonSaasMainDbContext context = new BisiyonSaasMainDbContext())
+{
+    context.Database.Migrate();
+}
+
 app.Run();
