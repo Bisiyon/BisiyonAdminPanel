@@ -3,7 +3,7 @@ using Microsoft.EntityFrameworkCore;
 
 namespace BisiyonAdminPanel.Controllers;
 
-public class SiteController : Controller
+public class SiteController : BaseController
 {
     private readonly ILogger<SiteController> _logger;
     private readonly BisiyonSaasMainDbContext _context;

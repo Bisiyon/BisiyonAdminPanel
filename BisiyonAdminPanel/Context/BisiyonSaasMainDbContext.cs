@@ -49,7 +49,31 @@ namespace BisiyonAdminPanel
             return connectionString ?? "";
         }
 
-        public DbSet<Sites> Sites { get; set; }
+        protected override void OnModelCreating(ModelBuilder modelBuilder)
+        {
+            modelBuilder.Entity<Company>()
+                .HasOne(c => c.Province)
+                .WithMany()
+                .HasForeignKey(c => c.ProvinceId)
+                .OnDelete(DeleteBehavior.NoAction); // veya DeleteBehavior.Restrict
 
+            modelBuilder.Entity<Company>()
+                .HasOne(c => c.District)
+                .WithMany()
+                .HasForeignKey(c => c.DistrictId)
+                .OnDelete(DeleteBehavior.NoAction); // veya DeleteBehavior.Restrict
+
+            modelBuilder.Entity<District>()
+                .HasOne(d => d.Province)
+                .WithMany()
+                .HasForeignKey(d => d.ProvinceId)
+                .OnDelete(DeleteBehavior.NoAction);
+
+        }
+
+        public DbSet<Sites> Sites { get; set; }
+        public DbSet<Company> Company { get; set; }
+        public DbSet<Province> Province { get; set; }
+        public DbSet<District> District { get; set; }
     }
 }

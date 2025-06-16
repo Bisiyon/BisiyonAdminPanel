@@ -1,4 +1,3 @@
-// wwwroot/js/layout.controller.js
 app.controller("layoutController", [
   "$scope",
   "db",

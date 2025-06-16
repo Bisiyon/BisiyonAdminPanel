@@ -1,4 +1,3 @@
-// wwwroot/js/layout.controller.js
 app.controller("siteController", [
   "$scope",
   "db",
@@ -37,18 +36,21 @@ app.controller("siteController", [
         return;
       }
       $scope.SavingSite = true;
-      db.post("/Site/SaveSite", $scope.SiteModel)
-        .then(function (response) {
+      db.post(
+        "/Site/SaveSite",
+        $scope.SiteModel,
+        function (response) {
           $scope.SavingSite = false;
           $("#newSiteModal").modal("hide");
           $scope.$parent.ShowToast("Site eklendi");
           $scope.GetSites();
-        })
-        .catch(function (error) {
+        },
+        function (error) {
           debugger;
           $scope.SavingSite = false;
           $scope.$parent.ShowToast("Hata oluştu!", (isError = true));
-        });
+        }
+      );
     };
   },
 ]);

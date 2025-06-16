@@ -1,4 +1,5 @@
 using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 
 namespace BisiyonAdminPanel
 {
@@ -10,11 +11,11 @@ namespace BisiyonAdminPanel
 
         [Required]
         [MaxLength(1000)]
-        public string SiteCode { get; set; }
+        public required string SiteCode { get; set; }
 
         [Required]
         [MaxLength(1000)]
-        public string SiteName { get; set; }
+        public required string SiteName { get; set; }
 
         [MaxLength(500)]
         public string? DatabaseInfo { get; set; }
@@ -38,5 +39,17 @@ namespace BisiyonAdminPanel
         public string? OwnerAddress { get; set; }
         public DateTime? ExpireDate { get; set; }
         public bool IsActive { get; set; }
+        public int CompanyId { get; set; }
+        public int ProvinceId { get; set; }
+        public int DistrictId { get; set; }
+
+        [ForeignKey(nameof(CompanyId))]
+        public required virtual Company Company { get; set; }
+
+        [ForeignKey(nameof(ProvinceId))]
+        public required virtual Province Province { get; set; }
+
+        [ForeignKey(nameof(DistrictId))]
+        public required virtual District District { get; set; }
     }
 }
